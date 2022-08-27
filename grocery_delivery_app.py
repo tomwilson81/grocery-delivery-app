@@ -15,8 +15,8 @@ json_data = {"requestorigin":"gi",
                                     "is_flex_slot":'false',"is_eat_n_collect":'false'},
                     "reserved_slot_id":"",
                     "request_window":"P2D",
-                    "service_address":{"postcode":"HX28TN","latitude":"53.734792","longitude":"-1.890971"},
-                    "customer_info":{"account_id":"44588672-e335-4869-8ec3-93fdb0f7b53f"},
+                    "service_address":{"postcode": os.environ['POSTCODE'],"latitude": os.environ['LATITUDE'],"longitude": os.environ['LONGITUDE']},
+                    "customer_info":{"account_id": os.environ['ACC_ID']},
                     "order_info":{"order_id":"e3264000-20ce-11ed-8bd4-bd56b85bedd8","parent_order_id":"","restricted_item_types":[],"sub_total_amount":0}}}
 
 # Make POST request to API, sending required json data
@@ -41,7 +41,7 @@ for slot_day in r.json()['data']['slot_days']:
         
         slot_data[slot_time.strftime('%H:%M:%S %d-%m-%Y')] = slot_status
 
-print(slot_data)
+# print(slot_data)
 
 # Filter for available slots
 available_slots_list = [f"/n {key} - {value}" for (key,value) in slot_data.items() if value!='UNAVAILABLE']
@@ -55,7 +55,7 @@ if len(available_slots_list) > 0:
 
     message_txt = f'\n Delivery Slot/s Found: \n{" ".join(available_slots_list)}'
 
-    # print(message_txt)
+    print(message_txt)
 
     message = client.messages \
                 .create(
